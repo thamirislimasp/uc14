@@ -18,7 +18,7 @@ class TwoFaController {
             secret: secret,
             encoding: 'base32',
             token: token,
-            window: 2 // Aceita tokens do periodo anterior e do próximo também
+            window: 3 // Aceita tokens do periodo anterior e do próximo também
         });
 
         response.json({ verified });
