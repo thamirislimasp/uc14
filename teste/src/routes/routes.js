@@ -4,6 +4,7 @@ const router = express.Router();
 const TasksController = require('../controllers/TasksController');
 const UserController = require('../controllers/UserController');
 const verificarToken = require('../middleware/authMiddleware');
+const TwoFaController = require ('../controllers/TwoFaController');
 
 router.post('/usuario/criar', UserController.cadastrarUsuario);
 
@@ -16,6 +17,12 @@ router.get('/usuario/:id', verificarToken, UserController.listarUmUsuario);
 router.put('usuario/atualizar/:id', verificarToken, UserController.atualizarUsuario);
 
 router.delete('usuario/excluir/:id', verificarToken, UserController.removerUsuario);
+
+
+router.get('/2fa/gerar', TwoFaController.gerarToken);
+
+router.post('/2fa/validar', TwoFaController.validarToken);
+
 
 
 router.post('/tarefa/criar', TasksController.novaTarefa);

@@ -7,12 +7,23 @@ class TwoFaController {
         const secret = speakeasy.generateSecret();
 
         qrcode.toDataURL(secret.otpauth_url, (err, data_url) => {
-
+            response.json({token: secret.base32, qr_code: data_url})
         })
     }
 
-    verificarToken(request, response) {
+    validarToken(request, response) {
+        const { token, secret } = request.body;
+        
+        const verified = speakeasy.totp.verify({
+            secret: secret,
+            encoding: 'base32',
+            token: token,
+            window: 2 // Aceita tokens do periodo anterior e do próximo também
+        });
 
+        response.json({ verified });
     }
 }
 
+
+module.exports = new TwoFaController();
