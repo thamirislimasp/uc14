@@ -54,7 +54,7 @@ class TasksController {
         const { id } = request.params;
 
         database.where({ id:id }).del().table("tasks").then(data => {
-            response.json({message: "Tarefa atualizada com sucesso !"});
+            response.json({message: "Tarefa excluída com sucesso !"});
        }).catch(error => {
         console.log(error)
        });

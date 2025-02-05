@@ -75,9 +75,23 @@ class UserController {
 
         database.where({ id: id }).del().table('users').then(usuario => {
             response.status(200).json({message: "Usuário deletado com sucesso!"})
-        }).catch(error =>{
+        }).catch(error => {
             console.log(error)
         })        
+    }
+
+
+    async redefinirSenha(request, response) {
+        const { id } = request.params;
+        const { senha } = request.body;
+
+        const senhaSegura = await bcrypt.hash(senha, 10);
+
+        database.where({ id: id }).update({ senha: senhaSegura }).table('users').then(usuario => {
+            response.json({ message: "Senha atualizada com sucesso!" })
+        }).catch(error => {
+            console.log(error)
+        })
     }
  
 };

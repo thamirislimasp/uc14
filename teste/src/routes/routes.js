@@ -18,6 +18,8 @@ router.put('usuario/atualizar/:id', verificarToken, UserController.atualizarUsua
 
 router.delete('usuario/excluir/:id', verificarToken, UserController.removerUsuario);
 
+router.put('/usuario/redefinirSenha/:id', UserController.redefinirSenha);
+
 
 router.get('/2fa/gerar', TwoFaController.gerarToken);
 
@@ -34,5 +36,6 @@ router.get('/tarefa/:id', TasksController.listarUmaTarefa);
 router.put('/tarefa/atualizar/:id', TasksController.atualizarTarefa);
 
 router.delete('/tarefa/excluir/:id', verificarToken, TasksController.removerTarefa);
+
 
 module.exports = router;
