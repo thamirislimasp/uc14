@@ -10,9 +10,9 @@ class UserController {
         const senhaSegura = await bcrypt.hash(senha, 10);
  
         database.insert({nome, email, senha: senhaSegura, situacao}).table("users").then(data => {
-            response.json({message: "Usuário cadastrado com sucesso !"})
+            response.status(201).json({message: "Usuário cadastrado com sucesso!"});
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao cadastrar o usuário."});
         })
     }
 
@@ -31,18 +31,18 @@ class UserController {
                 const token = jwt.sign({id: usuario[0].id}, 'Titos@2025', {
                     expiresIn: '1h'
                 })
-                response.status(200).json({token})
+                response.status(200).json({cod: 0, token})
     }).catch(error => {
-        console.log(error)
+        response.status(500).json({message: "Erro ao autenticar o usuário."});
     })
     }
 
  
-    listarUsuarios(request, respose) {
+    listarUsuarios(request, response) {
         database.select('*').table('users').then(usuarios => {
             response.status(200).json({usuarios})
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao obter lista de usuários."});
         })
     }
 
@@ -51,9 +51,9 @@ class UserController {
         const { id } = request.params;
 
         database.where({ id: id}).select('*').table('users').then(usuario => {
-            response.status(200).json({usuario})
+            response.status(200).json({usuario});
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao obter dados do usuário."});
         });
     }
 
@@ -63,9 +63,9 @@ class UserController {
         const { email, nome } = request.body;
  
         database.where({ id: id}).update({ nome: nome, email: email}).table('users').then(usuario => {
-            response.status(200).json({message: "Usuário atualizado com sucesso!"})
+            response.status(200).json({message: "Usuário atualizado com sucesso!"});
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao atualizar dados do usuário."});
         })
     }
     
@@ -76,7 +76,7 @@ class UserController {
         database.where({ id: id }).del().table('users').then(usuario => {
             response.status(200).json({message: "Usuário deletado com sucesso!"})
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao remover usuário."});
         })        
     }
 
@@ -88,9 +88,9 @@ class UserController {
         const senhaSegura = await bcrypt.hash(senha, 10);
 
         database.where({ id: id }).update({ senha: senhaSegura }).table('users').then(usuario => {
-            response.json({ message: "Senha atualizada com sucesso!" })
+            response.json({ message: "Senha atualizada com sucesso!" });
         }).catch(error => {
-            console.log(error)
+            response.status(500).json({message: "Erro ao redefinir senha do usuário."});
         })
     }
  
