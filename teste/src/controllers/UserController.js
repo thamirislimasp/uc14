@@ -76,7 +76,7 @@ class UserController {
         database.where({ id: id }).del().table('users').then(usuario => {
             response.status(200).json({message: "Usuário deletado com sucesso!"})
         }).catch(error => {
-            response.status(500).json({message: "Erro ao remover usuário."});
+            response.status(500).json({message: "Erro ao remover dados do usuário."});
         })        
     }
 
