@@ -1,12 +1,13 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
  
 function verificarToken(request, response, next) {
-    const token = request.header('Authorization')
+    const token = request.header('Authorization');
  
-    if(!token) return response.status(401).json({message: "Acesso negado"})
+    if(!token) return response.status(401).json({message: "Acesso não autorizado"})
  
         try {
-            const decodificar = jwt.verify(token, 'Titos@2025!')
+            const decodificar = jwt.verify(token, process.env.SALT)
             request.id = decodificar.id
             next()
         } catch(error) {
@@ -14,4 +15,4 @@ function verificarToken(request, response, next) {
         }
 }
  
-module.exports = verificarToken
+module.exports = verificarToken;
