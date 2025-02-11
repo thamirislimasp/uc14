@@ -8,18 +8,18 @@ class TasksController {
 
         database.insert({ tarefa, descricao, responsavel}).table('tasks').then(data => {
             console.log(data);
-            response.json({message: "Tarefa criada com sucesso !"})
+            response.status(201).json({message: "Tarefa criada com sucesso !"});
         }).catch(error => {
-            console.log(error)
+            response.staus(500).json({message: "Erro ao cadastrar tarefa."});
         })
     }
 
     // Puxa todas as tarefas
     listarTarefas(request, response) {
         database.select("*").table("tasks").then(tarefas => {
-            response.json(tarefas);
+            response.status(200).json(tarefas);
         }).catch(error => {
-            console.log(error);
+            response.staus(500).json({message: "Erro ao listar tarefas."});
         });
     }
 
@@ -31,9 +31,9 @@ class TasksController {
 
 
         database.select("*").table("tasks").where({id:id}).then(tarefa => {
-            response.json(tarefa);
+            response.status(200).json(tarefa);
         }).catch(error => {
-            console.log(error);
+            response.staus(500).json({message: "Erro ao listar tarefa."});
         });
     }
 
@@ -43,9 +43,9 @@ class TasksController {
         const { descricao } = request.body;
 
         database.where({ id:id }).update({descricao:descricao}).table("tasks").then(data => {
-            response.json({message: "Tarefa atualizada com sucesso !"});
+            response.status(201).json({message: "Tarefa atualizada com sucesso !"});
        }).catch(error => {
-        console.log(error)
+            response.staus(500).json({message: "Erro ao atualizar tarefa."});
        });
     }
 
@@ -54,9 +54,9 @@ class TasksController {
         const { id } = request.params;
 
         database.where({ id:id }).del().table("tasks").then(data => {
-            response.json({message: "Tarefa excluída com sucesso !"});
+            response.status(200).json({message: "Tarefa excluída com sucesso !"});
        }).catch(error => {
-        console.log(error)
+            response.staus(500).json({message: "Erro ao remover tarefa."});
        });
     }
 
